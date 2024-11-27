@@ -2,6 +2,14 @@ import extract_msg as msg
 import re
 
 def extract_important_information_from_body(body):
+    """
+    Extrait les blocs d'information pertinents dans le corps d'un email, mais seulement
+    si le corps contient au moins un "Results: Success".
+    """
+    # Vérifier si "Results: Success" est présent dans le corps
+    if "Results: Success" not in body:
+        return None  # Ignorer ce corps s'il ne contient pas "Results: Success"
+
     # Filtrer les sections contenant "Results: Success"
     success_blocks = re.findall(
         r"(Date:\s*\d{2}/\d{2}/\d{4}.*?Results:\s*Success.*?Elapsed time:\s*\d{2}:\d{2}:\d{2})",
@@ -9,9 +17,8 @@ def extract_important_information_from_body(body):
         re.DOTALL
     )
 
-    # Si aucune section avec "Results: Success" n'est trouvée, retourner une liste vide
     if not success_blocks:
-        return []
+        return None  # Si aucun bloc filtré n'est trouvé, ignorer ce corps
 
     # Liste des regex pour extraire les informations spécifiques
     regex_patterns = {
@@ -36,18 +43,36 @@ def extract_important_information_from_body(body):
     return extracted_data
 
 
-# Charger le fichier .msg et extraire les informations
+def process_msg_file(file_path):
+    """
+    Charge un fichier .msg, vérifie si le corps contient "Results: Success",
+    et extrait les informations pertinentes si présent.
+    """
+    # Charger le fichier .msg
+    msg_file = msg.Message(file_path)
+
+    # Extraire le corps du message
+    body_text = msg_file.body
+
+    # Vérifier et extraire les informations seulement si "Results: Success" est présent
+    important_info = extract_important_information_from_body(body_text)
+
+    # Si rien n'est extrait, retourner un message d'avertissement
+    if not important_info:
+        print(f"Le fichier {file_path} ne contient aucun 'Results: Success'.")
+        return None
+
+    # Sinon, retourner les informations extraites
+    return important_info
+
+
+# Chemin vers le fichier .msg
 file_path = "test.msg"
 
-# Charger le message avec extract_msg
-msg_file = msg.Message(file_path)
+# Traiter le fichier et afficher les résultats si pertinents
+results = process_msg_file(file_path)
 
-# Extraire le corps du message
-body_text = msg_file.body
-
-# Appeler la fonction pour extraire les informations pertinentes
-results = extract_important_information_from_body(body_text)
-
-# Afficher les résultats
-for result in results:
-    print(result)
+if results:
+    print("Informations extraites :")
+    for result in results:
+        print(result)

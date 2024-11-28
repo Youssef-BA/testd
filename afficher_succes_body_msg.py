@@ -3,14 +3,32 @@ import re
 
 def extract_success_blocks(body):
     """
-    Extrait uniquement les blocs contenant 'Results: Success' depuis le corps d'un email.
+    Extrait les blocs contenant 'Results: Success' ligne par ligne.
     """
-    # Expression régulière pour extraire les blocs spécifiques contenant "Results: Success"
-    success_blocks = re.findall(
-        r"(Date:\s*\d{2}/\d{2}/\d{4}.*?Results:\s*Success.*?Elapsed time:\s*\d{2}:\d{2}:\d{2})",
-        body,
-        re.DOTALL
-    )
+    lines = body.splitlines()
+    blocks = []
+    current_block = []
+    success_blocks = []
+    
+    # Parcourir les lignes une par une
+    for line in lines:
+        if line.startswith("Date:"):  # Un nouveau bloc commence
+            if current_block:  # Si un bloc est déjà en cours, on le traite
+                blocks.append("\n".join(current_block))
+            current_block = [line]  # Commence un nouveau bloc
+        elif line.strip() == "":  # Ligne vide, ignorer
+            continue
+        else:
+            current_block.append(line)  # Ajouter la ligne au bloc en cours
+
+    # Ajouter le dernier bloc s'il existe
+    if current_block:
+        blocks.append("\n".join(current_block))
+
+    # Filtrer les blocs contenant "Results: Success"
+    for block in blocks:
+        if "Results: Success" in block:
+            success_blocks.append(block)
 
     return success_blocks
 

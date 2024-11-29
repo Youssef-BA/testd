@@ -1,0 +1,15 @@
+OBJET|fax_destinataire|Expéditeur|Titre de l'expéditeur|Entité|Direction|Contact AXA|Destinataire|Tel Destinataire|Fax Destinataire|Mail Destinataire|Date Document|Référence|Compte à débiter|SWIFT|Titulaire de compte|Montant décaissement|Devise|Date valeur compensée|Bénéficiaire|IBAN Bénéficiaire|Banque Bénéficiaire|Swift Bénéficiaire|Commission|Motif du paiement|Référence de l'opération|Signataire1|Signataire2
+UBS VIR TRESO X 3|01 44 56 46 92
+|service.backofficebancaire@axa.fr|BACKOFFICEBANCAIRE|AXA FRANCE VIE HO|Direction Financière Service Trésorerie|GAVET Denis 01 47 74 01 84
+|UBS|01 44 56 48 12 01 44 56 46 87|01 44 56 46 92|sh-ubs-assurances@ubs.com|Paris , le / on 29/11/2023|25787|FR76 3075 8000 1051 2179 6000 159|UBSWFRPPXXX|AXA FRANCE VIE HO|543,000.00|EUR|29/11/2023|AXA FRANCE VIE HO|FR68 4132 9000 0100 0046 1489 A81|BPSS|PARBFRPPXXX|En exonération de commission de compte|D1812247P1/1|id 31243|RANDRIANANDRASANA Arinala|HAMON Pascal
+UBS VIR TRESO X 3|01 44 56 46 92
+|service.backofficebancaire@axa.fr|BACKOFFICEBANCAIRE|AXA FRANCE VIE HO|Direction Financière Service Trésorerie|HAMON Pascal 01 4774 38 01
+|UBS|01 44 56 48 12 01 44 56 46 87|01 44 56 46 92|service.backofficebancaire@axa.fr|Paris , le / on 29/11/2023|25789|FR76 3075 8000 1050 0178 8000 381|UBSWFRPPXXX|AXA FRANCE VIE HO|543,000.00|EUR|29/11/2023|AXA FRANCE VIE HO|FR68 4132 9000 0100 0046 1489 A81|BPSS|PARBFRPPXXX|En exonération de commission de compte|D1812251P1/1|id 31245|RANDRIANANDRASANA Arinala|HAMON Pascal
+UBS VIR TRESO X 3|01 44 56 46 92
+|service.backofficebancaire@axa.fr|BACKOFFICEBANCAIRE|AXA FRANCE VIE HO|Direction Financière Service Trésorerie|VUONG THI Thien 01 47 74 37 38
+|UBS|01 44 56 48 12 01 44 56 46 87|01 44 56 46 92|sh-ubs-assurances@ubs.com|Paris , le / on 29/11/2023|25788|FR76 3075 8000 1050 4909 2000 178|UBSWFRPPXXX|AXA FRANCE VIE HO|57,000.00|EUR|29/11/2023|AXA FRANCE VIE HO|FR68 4132 9000 0100 0046 1489 A81|BPSS|PARBFRPPXXX|En exonération de commission de compte|D1812249P1/1||RANDRIANANDRASANA Arinala|HAMON Pascal
+UBS VIR TRESO X 3|01 44 56 46 92
+|service.backofficebancaire@axa.fr|BACKOFFICEBANCAIRE|||Tel 01 44 56 48 12 ||||service.backofficebancaire@axa.fr|||||||||||||||||
+UBS VIR TRESO X 3|01 44 56 46 92
+|service.backofficebancaire@axa.fr|BACKOFFICEBANCAIRE|||Fax 01 44 56 46 92
+||||sh-ubs-assurances@ubs.com|||||||||||||||||

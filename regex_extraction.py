@@ -1,0 +1,66 @@
+import re
+
+def extract_important_information(text):
+    regex_patterns = {
+        "objet": r"NOTES:\s*(.+)",
+        "fax_destinataire": r"Fax:\s*(\d+)",
+        "expediteur_email": r"E-mail:\s*([\w\.-]+(?:\s*\.\s*[\w\.-]*)*\s*@\s*[\w\.-]+)",
+        "titre_expediteur": r"From:\s*(.+)",
+        "entite": r"4\s*44\s*=\s*([A-Z\s]+)\n[A-Z\s]+\n",
+        "direction": r"Direction[^\n]*\n(?:[^\n]*\n?){0,1}",
+        "contact1AXA": r"([A-Za-zÀ-ÿ]+(?: [A-Za-zÀ-ÿ]+)*)\s*((?:\d{2}\s*){4,5})",
+        "destinataire": r"4\s*44\s*=\s*(?:[A-Z\s]+\n)*([A-Z\s]+)\n",
+        "tel_destinataire": r"Tel\s*\n([\d\s]+)",
+        "fax_destinataire": r"Fax\s*\n([\d\s]+)",
+        "mail_destinataire": r"Mail\s*([\w\.-]+(?:\s[\w\.-]*)*@[\w\.-]+)",
+        "date_document": r"(Paris\s*,\s*le\s*/\s*on\s*\d{2}/\d{2}/\d{4})",
+        "reference": r"Our\s+reference\s+(\d+)",
+        "compte_debiter": r"From\s*\n([A-Z0-9\s]+)",
+        "swift": r"Swift:\s*([A-Z0-9]+)",
+        "titulaire_compte": r"Swift:\s*[A-Z0-9]+\s*(.*\n.*)",
+        "montant_decaissement": r"Veuillez virer la somme de\s*Please\s*([\d,]+\.\d{2})\s([A-Z]{3})",
+        "date_valeur_compensee": r"Date de valeur compensée\s*(\d{2}/\d{2}/\d{4})",
+        "beneficiaire": r"Nom bénéficiaire\s*Beneficiary name\s*([A-ZÀ-ÿ\s\n]+?)\s*IBAN",
+        "iban_beneficiaire": r"IBAN\s*IBAN\s*([A-Z0-9\s]+)\s*Banque bénéficiaire",
+        "banque_beneficiaire": r"Banque bénéficiaire\s*Beneficiary bank\s*([A-Z]+)",
+        "swift_beneficiaire": r"Code Swift\s*Swift code\s*([A-Z0-9]+)",
+        "commission": r"Swift code\s*[A-Z0-9]+\s*([^\n]+)",
+        "motif_paiement": r"Motif du paiement\s*Payment purpose\s*([^\n]+)",
+        "reference_operation": r"Détail Réf de l'opération\s*Transfer\s*Transfer ([^\n]+)",
+        "signataires": r"Signatures autorisées\s*Authorized signatures\s*([A-Za-zÀ-ÿ\s]+)",
+    }
+
+    data = {key: re.findall(pattern, text) for key, pattern in regex_patterns.items()}
+
+    extracted_data = {
+        "OBJET": data["objet"][0] if data["objet"] else None,
+        "fax_destinataire": data["fax_destinataire"][0] if data["fax_destinataire"] else None,
+        "Expéditeur": data["expediteur_email"][0].replace(" ", "") if data["expediteur_email"] else None,
+        "Titre de l'expéditeur": data["titre_expediteur"][0] if data["titre_expediteur"] else None,
+        "Entité": [" ".join(item.split()) for item in data["entite"]],
+        "Direction": [d.replace("\n", " ").strip() for d in data["direction"]],
+        "Contact AXA": [f"{name} {phone}" for name, phone in data["contact1AXA"]],
+        "Destinataire": data["destinataire"],
+        "Tel Destinataire": [tel.replace("\n", " ").strip() for tel in data["tel_destinataire"]],
+        "Fax Destinataire": [fax.strip() for fax in data["fax_destinataire"]],
+        "Mail Destinataire": [mail.replace(" ", ".") for mail in data["mail_destinataire"]],
+        "Date Document": data["date_document"],
+        "Référence": data["reference"],
+        "Compte à débiter": [" ".join(item.split()) for item in data["compte_debiter"]],
+        "SWIFT": data["swift"],
+        "Titulaire de compte": [" ".join(item.split()) for item in data["titulaire_compte"]],
+        "Montant décaissement": [montant[0] for montant in data["montant_decaissement"]],
+        "Devise": [montant[1] for montant in data["montant_decaissement"]],
+        "Date valeur compensée": data["date_valeur_compensee"],
+        "Bénéficiaire": [" ".join(item.split()) for item in data["beneficiaire"]],
+        "IBAN Bénéficiaire": [" ".join(item.split()) for item in data["iban_beneficiaire"]],
+        "Banque Bénéficiaire": data["banque_beneficiaire"],
+        "Swift Bénéficiaire": data["swift_beneficiaire"],
+        "Commission": [commission.strip() for commission in data["commission"]],
+        "Motif du paiement": [motif.strip() for motif in data["motif_paiement"]],
+        "Référence de l'opération": [ref.strip() for ref in data["reference_operation"]],
+        "Signataire1": [signataire.split("\n")[0].strip() for signataire in data["signataires"]],
+        "Signataire2": [signataire.split("\n")[1].strip() for signataire in data["signataires"]],
+    }
+
+    return extracted_data

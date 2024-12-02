@@ -2,8 +2,11 @@ import io
 from PIL import Image, ImageSequence
 import numpy as np
 import easyocr
-from regex_extraction import extract_important_information
+from regex_extraction import extract_important_information_by_page
+import extract_msg
 
+
+message = extract_msg.Message("test.msg")
 def process_tif_attachments(message):
     """
     Traite les pièces jointes au format .tif d'un fichier .msg pour extraire les données.
@@ -23,7 +26,7 @@ def process_tif_attachments(message):
                             text = reader.readtext(page_np, detail=0)
                             full_text += f"--- Page {page_number} ---\n" + "\n".join(text) + "\n"
 
-                        extracted_data = extract_important_information(full_text)
+                        extracted_data = extract_important_information_by_page(full_text)
                         all_extracted_data.append(extracted_data)
 
             except Exception as e:
